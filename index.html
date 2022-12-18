@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Секундомер</title>
+</head>
+<style type="text/css">
+	*{
+	margin: 0;
+	padding: 0;
+	font-family: 'Poppins', sans-serif;
+}
+
+.center{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+main{
+	width: 100%;
+	height: 100vh;
+}
+img {
+	width: 150px;
+	height: 200px;
+	padding: 25px;
+}
+.container{
+	width: 500px;
+	height: 550px;
+	flex-direction: column;
+}
+
+.container h2{
+	font-size: 5rem;
+	margin: 35px;
+}
+
+button{
+	width: 150px;
+	height: 40px;
+	font-size: 1rem;
+	color: #fff;
+	background: #000;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	background: #51A0BD;
+}
+button[id="start"]:hover,  button[id="pause"]:hover, button[id="reset"]:hover{
+	background: #21ADBF;
+	box-shadow: 0px 0px 12px black;
+	transition: 0.5s;
+}
+</style>
+<body>
+			
+	<main class="center">
+		<div class="container center">
+			<h1>СЕКУНДОМЕР</h1>
+			<img src="https://i.postimg.cc/SKJ7vSpv/stopwatch-g1d861ac56-640.png" alt="">
+
+			<div class="watch">
+				<h2 id="watch">00:00:00:00</h2>
+			</div>
+			<div class="buttons">
+				<button id="start">СТАРТ</button>
+				<button id="pause">ПАУЗА</button>
+				<button id="reset">СБРОС</button>
+			</div>
+		</div>
+	</main>
+
+
+	<script type="text/javascript">
+		const watch = document.querySelector('#watch');
+let milliseconds = 0;
+let timer;
+
+const startWatch = () => {
+	watch.classList.remove('paused');
+	clearInterval(timer);
+	timer = setInterval(()=>{
+		milliseconds += 10;
+		let dateTimer = new Date(milliseconds);
+		watch.innerHTML =
+			('0'+dateTimer.getUTCHours()).slice(-2) + ':' +
+			('0'+dateTimer.getUTCMinutes()).slice(-2) + ':' +
+			('0'+dateTimer.getUTCSeconds()).slice(-2) + ':' +
+			('0'+dateTimer.getUTCMilliseconds()).slice(-3,-1);
+	},10);
+};
+
+const pauseWatch = () => {
+  watch.classList.add('paused');
+  clearInterval(timer);
+};
+
+const resetWatch = () => {
+	watch.classList.remove('paused');
+	clearInterval(timer);
+	milliseconds = 0;
+	watch.innerHTML = '00:00:00:00';
+};
+
+document.addEventListener('click', (e) =>{
+	const element = e.target;
+	if (element.id === 'start') startWatch();
+	if (element.id === 'pause') pauseWatch();
+	if (element.id === 'reset') resetWatch();
+});
+	</script>
+
+</body>
+</html>
